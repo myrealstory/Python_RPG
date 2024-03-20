@@ -13,23 +13,34 @@ class Battle:
         self.monsters = monsters
 
     def display_monsters(self):
+        alive_monsters = [monster for monster in self.monsters if monster.hp > 0]
         print("可攻擊的魔物有: ")
-        for i, monster in enumerate(self.monsters):
+        for i, monster in enumerate(alive_monsters):
             if monster.hp > 0:
                 print(f"{i+1}. {monster.name} (血量: {monster.hp})")
 
     def attack_single_target(self, attack_mode, target_index):
-        if target_index < 0 or target_index >= len(self.monsters):
+        alive_monsters = self.display_monsters()
+        if target_index < 0 or target_index >= len(alive_monsters):
             print("請選擇一個有效的魔物。")
             return
-        target_monster = self.monsters[target_index]
+        target_monster = alive_monsters[target_index]
         damage, attack_accuracy = self.player.attack(attack_mode)
+        self.player.mp += 5
         self.apply_damage(target_monster, damage, attack_accuracy)
 
-    def attack_all_targets(self, attack_mode):
-        if self.player.mp < 25:
+    def attack_all_targets(self, attack_mode,weapon_choice):
+        if self.player.mp < 25 and weapon_choice == 2:
             print("MP 不足，無法使用十字審判。")
             return False
+        elif self.player.mp < 15 and weapon_choice == 1:
+            print("MP 不足，無法使用多重斬擊。")
+            return False
+        
+        if weapon_choice == 2:
+            self.player.mp -= 25
+        else:
+            self.player.mp -= 15
         
         for monster in self.monsters:
             if monster.hp > 0:
@@ -65,6 +76,7 @@ class Battle:
             defense_value = self.player.defense()
             actual_damage = max(0, damage - defense_value)
             self.player.hp -= actual_damage
+            self.player.mp += 5
             if actual_damage > 0 :
                 print(f"{self.player.name} 在防守後受到了 {actual_damage} 點傷害，剩餘血量為 {self.player.hp}, 剩餘MP為 {self.player.mp}。")
             else:
