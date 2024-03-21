@@ -21,13 +21,22 @@ class Battle:
 
     def attack_single_target(self, attack_mode, target_index):
         alive_monsters = self.display_monsters()
-        if target_index < 0 or target_index >= len(alive_monsters):
-            print("請選擇一個有效的魔物。")
-            return
-        target_monster = alive_monsters[target_index]
-        damage, attack_accuracy = self.player.attack(attack_mode)
-        self.player.mp += 5
-        self.apply_damage(target_monster, damage, attack_accuracy)
+        target_monster = None
+
+        if len(alive_monsters) == 1:
+            target_monster = alive_monsters[0]
+            print(f"只有一只怪物，{self.player.name} 對 {target_monster.name} 進行攻擊。")
+
+        else: 
+            if target_index < 0 or target_index >= len(alive_monsters):
+                print("請選擇一個有效的魔物。")
+                return
+            target_monster = alive_monsters[target_index]
+        
+        if target_monster:
+            damage, attack_accuracy = self.player.attack(attack_mode)
+            self.player.mp += 5
+            self.apply_damage(target_monster, damage, attack_accuracy)
 
     def attack_all_targets(self, attack_mode,weapon_choice):
         if self.player.mp < 25 and weapon_choice == 2:
