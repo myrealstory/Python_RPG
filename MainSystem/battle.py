@@ -35,7 +35,6 @@ class Battle:
         
         if target_monster:
             damage, attack_accuracy = self.player.attack(attack_mode)
-            self.player.mp += 5
             self.apply_damage(target_monster, damage, attack_accuracy)
 
     def attack_all_targets(self, attack_mode,weapon_choice):
@@ -45,11 +44,6 @@ class Battle:
         elif self.player.mp < 15 and weapon_choice == 1:
             print("MP 不足，無法使用多重斬擊。")
             return False
-        
-        if weapon_choice == 2:
-            self.player.mp -= 25
-        else:
-            self.player.mp -= 15
         
         for monster in self.monsters:
             if monster.hp > 0:

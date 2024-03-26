@@ -5,6 +5,7 @@ from startup import startup, create_monster
 from play_game import play_game
 from character.swordman import SwordMan
 from MainSystem.load import load
+from map.map import innerMap
 
 
 
@@ -23,12 +24,9 @@ def main():
         choice = get_non_empty_input("輸入您的選擇: ")
 
         if choice == "1":
-            player, monsters, monster_amount = startup()
-            print(f"戰鬥開始！你遇到了 {monster_amount} 只哥布林！")
-            battle = Battle(player, monsters)
-            play_game(battle, player, monsters)
+            player = startup()
+            innerMap(player,map="map1")
             run = False #假設在遊戲結束後退出主循環
-        
         elif choice == "2":
             hp,mp,experience,name,weapon_choice = load()
             player = SwordMan(name, weapon_choice, hp, mp, experience)

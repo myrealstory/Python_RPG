@@ -8,39 +8,27 @@
 
 from MainSystem.getNonEmptyInput import get_non_empty_input
 from character.swordman import SwordMan
-import random
-from init import GameCharacter
-
-class Monster(GameCharacter):
-    def __init__(self, name,hp=300, dodge_rate=0.3):
-        super().__init__(name, hp)
-        self.dodge_rate = dodge_rate
-
-    def attack(self):
-        damage = random.choice([30, 40, 50, 60, 70, 80])
-        print(f"{self.name} 使用利爪攻擊，預估會造成 {damage} 點傷害！")
-        return damage
-
-    def dodge(self):
-        # 隨機產生一個數字來模擬閃避機制
-        return random.random() < self.dodge_rate
 
 
-def create_monster():
-    num_monster = random.randint(1, 3) # 隨機產生 1~3 之間的數字
-    monster =  [Monster(f"哥布林{chr(65+i)}") for i in range(num_monster)]
-    monster_amount = len(monster)
-    return monster, monster_amount
 
 def startup():
 
     player_name = get_non_empty_input("請問你叫什麼名字? ")
+
+    refresh_choice = get_non_empty_input("是否要消費 200 金幣重新隨機屬性？ (y/n)")
+    while refresh_choice.lower() == "y":
+        success = player.refresh_attribute()
+        if not success:
+            break # 如果金幣不足，則跳出迴圈
+        print(f"{player.name} 的屬性已經刷新！ 剩餘金幣： {player.gold}")
+        refresh_choice = input("是否要繼續消費 200 金幣重新隨機屬性？ (y/n)")
+
+    
     weapon_choice = get_non_empty_input("你是勇敢的戰士，請問你要使用什麼武器? 1.單手劍 2.雙手劍 ")
     while weapon_choice not in ["1", "2"]:
         weapon_choice = input("你是勇敢的戰士，請問你要使用什麼武器? 1.單手劍 2.雙手劍 ")
     weapon_choice = int(weapon_choice)
 
     player = SwordMan(player_name, weapon_choice)
-    monsters, monster_amount = create_monster()
 
-    return player, monsters, monster_amount
+    return player
