@@ -19,6 +19,8 @@ class Battle:
             if monster.hp > 0:
                 print(f"{i+1}. {monster.name} (血量: {monster.hp})")
 
+        return alive_monsters
+
     def attack_single_target(self, attack_mode, target_index):
         alive_monsters = self.display_monsters()
         target_monster = None

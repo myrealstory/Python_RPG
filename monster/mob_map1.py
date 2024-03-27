@@ -3,9 +3,13 @@ import random
 
 
 class Globin(GameCharacter):
-    def __init__(self, name = "哥布林",hp=300, dodge_rate=0.3):
+    def __init__(self, name = "哥布林",hp=300, dodge_rate=0.3, gold=None):
         super().__init__(name, hp)
         self.dodge_rate = dodge_rate
+        self.gold = gold if gold is not None else random.randint(100, 200)
+        self.name = name
+        self.hp = hp
+        
 
     def attack(self):
         damage = random.choice([30, 40, 50, 60, 70, 80])
@@ -17,9 +21,12 @@ class Globin(GameCharacter):
         return random.random() < self.dodge_rate
     
 class Orc(GameCharacter):
-    def __init__(self, name = "食人怪",hp=800, dodge_rate=0.2):
+    def __init__(self, name = "食人怪",hp=800, dodge_rate=0.2,gold=None):
         super().__init__(name, hp)
-        self.dodge_rate = dodge_rate
+        self.dodge_rate = dodge_rate 
+        self.gold = gold if gold is not None else random.randint(300, 500)
+        self.name = name
+        self.hp = hp
 
     def attack(self):
         
@@ -43,10 +50,13 @@ class Orc(GameCharacter):
         return random.random() < self.dodge_rate
     
 class gaintOrc(GameCharacter):
-    def __init__(self, name="變異食人怪", hp=1800, dodge_rate=0.4, ultimate=1):
+    def __init__(self, name="變異食人怪", hp=1800, dodge_rate=0.4, ultimate=1,gold=None):
         super().__init__(name, hp)
         self.dodge_rate = dodge_rate
         self.ultimate = ultimate
+        self.gold = gold if gold is not None else random.randint(1000, 2000)
+        self.name = name
+        self.hp = hp
 
     def attack(self):
         if self.hp < 200 and self.ultimate > 0:

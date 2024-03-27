@@ -1,6 +1,7 @@
 from MainSystem.getNonEmptyInput import get_non_empty_input
 from character.weapon import weaponName
 from MainSystem.save import save
+from init import GameCharacter
 
 def play_game(battle ,player, monsters):
     while player.hp > 0 and any(monster.hp > 0 for monster in monsters):
@@ -30,10 +31,17 @@ def play_game(battle ,player, monsters):
         if all(monster.hp <= 0 for monster in monsters):
             print("哥布林全滅，你獲得了勝利！")
 
-            # 計算從妹子怪物獲得的經驗值綜合
-            total_exp_gain = sum(monster.initial_hp * 0.5 for monster in monsters)
-            player.experience += total_exp_gain
-            print(f"你获得了 {total_exp_gain} 点经验值。总经验值现在是 {player.experience}。")
+            #計算從魔物獲得的金幣綜合
+            total_gold_gain = sum(monster.gold for monster in monsters)
+
+            total_gold_gain += total_gold_gain * (player.lvl * 0.1)
+            player.gold += total_gold_gain
+            print(f"你獲得了 {total_gold_gain} 金幣！ 總金幣現在是 {player.gold}!")
+            choice_LVLing = get_non_empty_input("是否要升級屬性? (y/n)")
+            if choice_LVLing.lower() == "y":
+                GameCharacter.lvling_Attributes()
+
             # 保存遊戲數據
             save(battle.player)
+            
             break

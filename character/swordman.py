@@ -2,10 +2,13 @@ import random
 from init import GameCharacter
 
 class SwordMan(GameCharacter):
-    def __init__(self, name, weapon_choice, strength, agi, int, dex, luk, lvl, hp=500, mp=50, experience=0):
-        super().__init__(name, hp, strength, agi, int, dex, luk, lvl, experience, hp, mp)
+    def __init__(self, name, weapon_choice, **game_init ):
+        super().__init__(name)
         self.weapon = weapon_choice
         self.weapon_name = "單手劍" if weapon_choice == 1 else "雙手劍"
+        self.jobName = "劍士"
+
+        self.__dict__.update(game_init)
 
         #職業特有加成
         self.strength += 20

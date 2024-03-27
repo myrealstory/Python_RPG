@@ -1,17 +1,11 @@
 # This is the main file of the game. It will be the first file to run when the game starts. It will be responsible for the main game loop and the game menu. It will also be responsible for loading the game and saving the game.
 from MainSystem.getNonEmptyInput import get_non_empty_input
 from MainSystem.battle import Battle
-from startup import startup, create_monster
+from startup import startup
 from play_game import play_game
 from character.swordman import SwordMan
 from MainSystem.load import load
-from map.map import innerMap
-
-
-
-
-
-
+from map.map import innerMap, create_monster
 
 
 def main():
