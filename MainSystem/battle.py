@@ -11,6 +11,7 @@ class Battle:
     def __init__(self, player, monsters):
         self.player = player
         self.monsters = monsters
+        playerSkillType = None
 
     def display_monsters(self):
         alive_monsters = [monster for monster in self.monsters if monster.hp > 0]
@@ -36,20 +37,19 @@ class Battle:
             target_monster = alive_monsters[target_index]
         
         if target_monster:
-            damage, attack_accuracy = self.player.attack(attack_mode)
+            damage, attack_accuracy, attackType = self.player.attack(attack_mode)
+            playerSkillType = attackType
             self.apply_damage(target_monster, damage, attack_accuracy)
 
-    def attack_all_targets(self, attack_mode,weapon_choice):
-        if self.player.mp < 25 and weapon_choice == 2:
-            print("MP 不足，無法使用十字審判。")
-            return False
-        elif self.player.mp < 15 and weapon_choice == 1:
-            print("MP 不足，無法使用多重斬擊。")
+    def attack_all_targets(self, attack_mode):
+        if self.player.mp < 25:
+            print(f"MP 不足，無法使用<{self.player.skill1}>。")
             return False
         
         for monster in self.monsters:
             if monster.hp > 0:
-                damage, attack_accuracy = self.player.attack(attack_mode)
+                damage, attack_accuracy, attackType = self.player.attack(attack_mode)
+                playerSkillType = attackType
                 self.apply_damage(monster, damage, attack_accuracy)
         return True
     

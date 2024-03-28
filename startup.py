@@ -10,6 +10,26 @@ from MainSystem.getNonEmptyInput import get_non_empty_input
 from character.swordman import SwordMan
 from init import GameCharacter
 
+def jobRecommendation(player):
+    recommendations = []
+
+    if player.strength >= 7:
+        recommendations.append("劍士")
+    if player.int >= 7:
+        recommendations.append("法師")
+    if player.dex >= 7:
+        recommendations.append("弓箭手")
+    if player.agi >= 7:
+        recommendations.append("盜賊")
+    
+    # 根據推薦結果聲稱提示信息
+    if recommendations:
+        if len(recommendations) == 1:
+            return recommendations[0]
+        else:
+            return " 或 ".join(recommendations)
+    else:
+        return "無"
 
 
 def startup():
@@ -36,11 +56,17 @@ def startup():
         print(f"剩下金幣 是 {player.gold}")
         refresh_choice = input("是否要繼續消費 200 金幣重新隨機屬性？ (y/n)")
 
-    
-    weapon_choice = get_non_empty_input("你是勇敢的戰士，請問你要使用什麼武器? 1.單手劍 2.雙手劍 ")
-    while weapon_choice not in ["1", "2"]:
-        weapon_choice = input("你是勇敢的戰士，請問你要使用什麼武器? 1.單手劍 2.雙手劍 ")
-    weapon_choice = int(weapon_choice)
+    jobPickRecommend = jobRecommendation(player)
+    if jobPickRecommend != "無":
+        jobChoice = get_non_empty_input(f"你是勇敢的勇者，神建議你選 {jobPickRecommend},請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        while jobChoice not in ["1", "2", "3", "4"]:
+            jobChoice = input(f"你是勇敢的勇者，神建議你選  <{jobPickRecommend}> ,請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        jobChoice = int(jobChoice)
+    else:
+        jobChoice = get_non_empty_input("你是勇敢的勇者，請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        while jobChoice not in ["1", "2", "3", "4"]:
+            jobChoice = input("你是勇敢的勇者，請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        jobChoice = int(jobChoice)
 
     character_attr = {
         "strength": player.strength,
@@ -53,6 +79,13 @@ def startup():
         "gold": player.gold,
     }
 
-    jobPlayer = SwordMan(player_name, weapon_choice, **character_attr)
+    if jobChoice == 1:
+        jobPlayer = SwordMan(player_name, **character_attr)
+    elif jobChoice == 2:
+        return "to be continued"
+    elif jobChoice == 3:
+        return "to be continued"
+    elif jobChoice == 4:
+        return "to be continued"
 
     return jobPlayer

@@ -24,33 +24,39 @@ class GameCharacter:
 
     
     def attackRate(self):
-        strength = self.strength + self.agi * 0.5 + self.luk * 0.05
-        return random.randit(strength, strength + 10)
+        strength = round(self.strength + self.agi * 0.5 + self.luk * 0.05)
+        maxDmg = strength + 10
+        return random.randint(strength, maxDmg)
 
     def AGI(self):
-        evade = self.agi + self.strength * 0.1 + self.luk * 0.2
-        return (evade / self.totalAll) * 100
+        evade = round(self.agi + self.strength * 0.1 + self.luk * 0.2)
+        totalAll = 255 + 255 # agi max - 255 , luk max - 255
+        return (evade / totalAll) * 100
     
     def accuracy(self):
-        dex = self.dex + self.agi * 0.5 + self.luk * 0.1 + self.strength * 0.1
-        return (dex / self.totalAll) * 100
+        dex = round(self.dex + self.agi * 0.5 + self.luk * 0.1 + self.strength * 0.1)
+        totalAll = 255 + 255 # dex max - 255 , luk max - 255
+        return (dex / totalAll) * 100
     
     def defense(self):
-        return self.strength + self.agi * 0.5 + self.luk * 0.1 + self.dex * 0.1
+        return round(self.strength + self.agi * 0.5 + self.luk * 0.1 + self.dex * 0.1)
     
     def criticalRate(self):
-        critical = self.luk + self.dex * 0.3 + self.agi * 0.1
+        critical = round(self.luk + self.dex * 0.3 + self.agi * 0.1)
         happenCritical = random.randint(40, 100)
+        totalAll = 255 + 255 # luk max - 255 , agi max - 255
         return (critical / self.totalAll) * 100 > happenCritical 
 
     def criticalDmg(self):
-        return self.attackRate() + self.attackRate() * (self.luk * 0.2)
+        return round(self.attackRate() + self.attackRate() * (self.luk * 0.2))
 
     def magicDmg(self):
-        return random.randint(self.int * 1.2, self.int * 1.6 ) 
+        min_magicAttack = round(self.int * 1.2)
+        max_magicAttack = round(self.int * 1.6)
+        return random.randint(min_magicAttack, max_magicAttack) 
     
     def magicDef(self):
-        return (self.int * 0.5)
+        return round(self.int * 0.5)
     
     def lvling_Attributes(self):
         # 定義選項 和 對應的屬性名

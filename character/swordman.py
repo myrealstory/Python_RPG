@@ -2,11 +2,12 @@ import random
 from init import GameCharacter
 
 class SwordMan(GameCharacter):
-    def __init__(self, name, weapon_choice, **game_init ):
+    def __init__(self, name, **game_init ):
         super().__init__(name)
-        self.weapon = weapon_choice
-        self.weapon_name = "單手劍" if weapon_choice == 1 else "雙手劍"
         self.jobName = "劍士"
+        self.weapon = "單手劍"
+        self.skill1 = "爆裂斬"
+        self.skill2 = "極光衝刺"
 
         self.__dict__.update(game_init)
 
@@ -17,66 +18,37 @@ class SwordMan(GameCharacter):
         self.dex += 10
         self.luk += 3
         
-
-    def attack(self):
-
-        base_attack = super().attackRate()
-
-        if self.weapon == 1: # 單手劍
-            return base_attack * 1.1 
-        else: # 雙手劍
-            return base_attack * 1.3 
-        
-    def single_sword_attack(self, mode):
-        attack_power = self.attack()
+    
+    def attack(self, mode):
+        attack_power = self.attackRate() * 1.1
+        attack_power = int(attack_power)
         magic_power = self.magicDmg()
+        magic_power = int(magic_power)
+        max_DMGPower1 = int(attack_power * 1.2)
+        max_DMGPower2 = int(attack_power * 1.5)
 
         if mode == 1:
-            print(f"{self.name} 使用 {self.weapon_name} 進行普通攻擊!")
-            damage = random.randint(int(attack_power), int(attack_power* 1.2))
+            print(f"{self.name} 使用 {self.weapon} 進行普通攻擊!")
+            damage = random.randint(attack_power, max_DMGPower1)
             attack_accuracy = 0.8
             attackType = "physicalDmg"
             self.mp += 5
         elif mode == 2:
-            print(f"{self.name} 使用 {self.weapon_name} 進行多重斬擊!")
+            print(f"{self.name} 使用 {self.weapon} 進行<{self.skill1}>!，產生了{hit_times}火花一同爆炸")
             hit_times = random.randint(1, 5)
-            damage = sum(random.randint(int(attack_power), int(attack_power* 1.5)) for _ in range(hit_times))
+            damage = sum(random.randint(attack_power, max_DMGPower2) for _ in range(hit_times))
             attackType = "physicalDmg"
             self.mp -= 15
 
         elif mode ==3 and self.lvl >= 5:
             hit_times = random.randint(3, 5)
-            print(f"{self.name} 使用 {self.weapon_name} 進行「極光衝刺」攻擊!產生了{hit_times}星星一同墜入敵人身上！")
+            print(f"{self.name} 使用 {self.weapon} 進行「極光衝刺」攻擊!產生了{hit_times}星星一同墜入敵人身上！")
             damage = magic_power + random.randint(int(magic_power * 1.5), int(magic_power* 2.5))
             attackType = "magicDmg"
             self.mp -= 35
             
         attack_accuracy = super().accuracy() if attackType == "physicalDmg" else 100
         return damage, attack_accuracy, attackType
-        
-    def double_sword_attack(self, mode):
-        attack_power = self.attack()
-
-        if mode == 1:
-            print(f"{self.name} 使用 {self.weapon_name} 進行普通攻擊!")
-            damage = random.randint(int(attack_power * 0.9), int(attack_power* 1.8))
-            attackType = "physicalDmg"
-            self.mp += 5
-
-        elif mode == 2:
-            print(f"{self.name} 使用 {self.weapon_name} 進行「十字審判」攻擊!")
-            damage = random.randint(int(attack_power * 1.5), int(attack_power* 2.5)) *2
-            attackType = "physicalDmg"
-            self.mp -= 25
-
-        elif mode ==3 and self.lvl >= 5:
-            print(f"{self.name} 使用 {self.weapon_name} 進行「大地衝擊」攻擊!")
-            damage = random.randint(int(attack_power * 3), int(attack_power* 4))
-            attackType = "magicDmg"
-            self.mp -= 35
-        
-        attack_accuracy = super().accuracy()
-        return damage, attack_accuracy,attackType
         
     def dodge(self):
         dodge_chance = super().AGI()

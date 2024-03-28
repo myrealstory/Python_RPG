@@ -11,7 +11,7 @@ def play_game(battle ,player, monsters):
 
         #讓玩家選擇攻擊模式
         weapon_name = weaponName("swordman",player.weapon)
-        attack_mode = int(get_non_empty_input(f"請問你要使用 {weapon_name} 進行? 1.普通攻擊 2.特殊技能 "))
+        attack_mode = int(get_non_empty_input(f"請問你要使用 {player.weapon} 進行? 1.普通攻擊 2.特殊技能 "))
 
         if attack_mode == 1:
             # 讓玩家選擇攻擊的目標
