@@ -34,10 +34,10 @@ def jobRecommendation(player):
 
 def startup():
 
-    player_name = get_non_empty_input("請問你叫什麼名字? ")
+    player_name = input("請問你叫什麼名字? ")
 
     player = GameCharacter(player_name, gold = 2000)
-    refresh_choice = get_non_empty_input("是否要消費 200 金幣重新隨機屬性？ (y/n)")
+    refresh_choice = get_non_empty_input("是否要消費 200 金幣重新隨機屬性？ (y/n)", ["y", "n"])
 
     while refresh_choice.lower() == "y":
 
@@ -58,12 +58,12 @@ def startup():
 
     jobPickRecommend = jobRecommendation(player)
     if jobPickRecommend != "無":
-        jobChoice = get_non_empty_input(f"你是勇敢的勇者，神建議你選 {jobPickRecommend},請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        jobChoice = get_non_empty_input(f"你是勇敢的勇者，神建議你選 {jobPickRecommend},請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ",["1", "2", "3", "4"])
         while jobChoice not in ["1", "2", "3", "4"]:
             jobChoice = input(f"你是勇敢的勇者，神建議你選  <{jobPickRecommend}> ,請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
         jobChoice = int(jobChoice)
     else:
-        jobChoice = get_non_empty_input("你是勇敢的勇者，請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
+        jobChoice = get_non_empty_input("你是勇敢的勇者，請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ",["1", "2", "3", "4"])
         while jobChoice not in ["1", "2", "3", "4"]:
             jobChoice = input("你是勇敢的勇者，請問你要選擇什麼職業? 1.劍士 2.法師 3.盜賊 4.弓箭手 ")
         jobChoice = int(jobChoice)

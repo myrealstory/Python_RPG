@@ -11,14 +11,15 @@ def play_game(battle ,player, monsters):
 
         #讓玩家選擇攻擊模式
         weapon_name = weaponName("swordman",player.weapon)
-        attack_mode = int(get_non_empty_input(f"請問你要使用 {player.weapon} 進行? 1.普通攻擊 2.特殊技能 "))
+        attack_commend = get_non_empty_input(f"請問你要使用 {player.weapon} 進行? 1.普通攻擊 2.特殊技能 ",['1','2'])
+        attack_mode = int(attack_commend)
 
         if attack_mode == 1:
             # 讓玩家選擇攻擊的目標
             target_index = int(get_non_empty_input(f"請問你要攻擊哪一隻怪物? "))-1
             battle.attack_single_target(attack_mode, target_index)
         elif attack_mode == 2:
-            if not battle.attack_all_targets(attack_mode,player.weapon):
+            if not battle.attack_all_targets(attack_mode):
                 continue #如果MP不足，或其他原因導致無法攻擊，可能需要跳過本輪
 
         # 怪物反擊
@@ -37,7 +38,7 @@ def play_game(battle ,player, monsters):
             total_gold_gain += total_gold_gain * (player.lvl * 0.1)
             player.gold += total_gold_gain
             print(f"你獲得了 {total_gold_gain} 金幣！ 總金幣現在是 {player.gold}!")
-            choice_LVLing = get_non_empty_input("是否要升級屬性? (y/n)")
+            choice_LVLing = get_non_empty_input("是否要升級屬性? (y/n)",["y", "n"])
             if choice_LVLing.lower() == "y":
                 GameCharacter.lvling_Attributes()
 

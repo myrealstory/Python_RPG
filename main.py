@@ -15,7 +15,7 @@ def main():
         print("2, LOAD GAME")
         print("3, PLAY RULES")
         print("4, QUIT GAME")
-        choice = get_non_empty_input("輸入您的選擇: ")
+        choice = get_non_empty_input("輸入您的選擇: ",["1", "2", "3", "4"])
 
         if choice == "1":
             player = startup()

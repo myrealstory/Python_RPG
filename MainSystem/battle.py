@@ -76,7 +76,8 @@ class Battle:
             print(f"{target.name} 已經死亡。")
 
     def player_defense(self, damage):
-        player_defense_action = int(get_non_empty_input("怪物即將攻擊，你選擇：1.防禦 2.閃躲 "))
+        playerDefendCommend = get_non_empty_input("怪物即將攻擊，你選擇：1.防禦 2.閃躲 ",['1','2'])
+        player_defense_action = int(playerDefendCommend)
         if player_defense_action == 1:
             defense_value = self.player.defense()
             actual_damage = max(0, damage - defense_value)

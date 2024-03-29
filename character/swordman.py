@@ -1,5 +1,6 @@
 import random
 from init import GameCharacter
+from playDice import dodgeDice
 
 class SwordMan(GameCharacter):
     def __init__(self, name, **game_init ):
@@ -34,9 +35,9 @@ class SwordMan(GameCharacter):
             attackType = "physicalDmg"
             self.mp += 5
         elif mode == 2:
-            print(f"{self.name} 使用 {self.weapon} 進行<{self.skill1}>!，產生了{hit_times}火花一同爆炸")
             hit_times = random.randint(1, 5)
             damage = sum(random.randint(attack_power, max_DMGPower2) for _ in range(hit_times))
+            print(f"{self.name} 使用 {self.weapon} 進行<{self.skill1}>!，產生了{hit_times}火花一同爆炸")
             attackType = "physicalDmg"
             self.mp -= 15
 
@@ -51,9 +52,14 @@ class SwordMan(GameCharacter):
         return damage, attack_accuracy, attackType
         
     def dodge(self):
-        dodge_chance = super().AGI()
+        characterAgi = super().AGI()
+        getDice = dodgeDice()
+        dodge_chance = round(characterAgi / 10 ) + getDice if getDice < 40 else getDice
+        monsterAttackRate = random.randint(1,100)
+        print(f"魔物的準確機率為 {monsterAttackRate}%")
 
-        if random.random() < dodge_chance:
+        if monsterAttackRate < dodge_chance:
+            print(f"{self.name} 骰中了 {getDice} 利用 {dodge_chance}% 閃避了攻擊！")
             return True
         else:
             return False
